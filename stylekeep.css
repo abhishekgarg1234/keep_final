@@ -1,0 +1,165 @@
+.nnote{
+	  display:inline-block;
+	  border: 2px solid #765942;
+	  border-radius:25px;  
+    padding: 20px; 
+    width: auto;
+   height: auto;
+}
+#main{
+	  
+	  display:inline-block;
+	 
+}
+#categories{
+	display:inline-block;  
+    padding: 20px; 
+    width: 800px;
+    height: 95px;
+}
+
+#newnotetext{
+
+	border: 2px solid #765942;
+	border-radius: 10px;
+	height: auto;
+	width: auto;
+}
+
+#newfeildbutton{
+	box-shadow: 10px 10px 5px outset;
+	border: 2px solid #D80000;
+	border-radius: 10px;
+	background-color:#CC99CC;
+}
+#newnote{
+	border: 2px solid #765942;
+	border-radius: 10px;
+}
+.allbuttons{
+	border: 2px solid #765942;
+	border-radius: 10px;
+}
+.feildbuttons{
+	box-shadow:none;
+	border: 2px solid #6633CC;
+	border-radius: 10px;
+	background-color:#CC9900;
+}
+.feildbuttons:focus{
+	border-radius: 0px;
+}
+
+.dropdown{
+	border: 2px solid #765942;
+	border-radius: 10px;
+}
+
+.delbuttons{
+	position: relative;
+	float:right;
+    top: -75px;
+    right: 0px;
+}
+/*
+.delbuttons{
+	border: 2px solid #765942;
+	border-radius: 10px;
+	background-color:#CC9900;
+}*/
+#newfeildtext{
+	border: none;
+	outline: none;
+}
+#firsttext{
+	font-style: oblique;
+	font-size: 30px;
+	font-weight: bold;
+	color: #660000;
+	text-decoration: underline;
+	letter-spacing: 1px;
+}
+.checkbox{
+	border: 2px solid #765942;
+	border-radius: 10px;
+	background-color:#CC9900;
+}
+/*
+.edit{
+	border: 2px solid #765942;
+	border-radius: 10px;
+	background-color:#CC9900;
+}*/
+.crossmarks{
+	color:red;
+}
+#cat{
+	font-family: "Times New Roman";
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+/*
+
+for(var i=0;i<count;i++){
+	var y="  <select id="select1" onchange="changecategory()" name="select1">
+            <option value="0" selected="selected">Choose a color</option>
+            <option value="1">Red Star</option>
+            <option value="2">Yellow Star</option>
+            <option value="3">Pink Star</option>
+          </select>"
+}
+
+var x="<select id="+i+" onchange='changecategory()'>"
+
+for(var i=0;i<3;i++){
+	var x1=JSON.stringify("c"+i);
+	x += "<option value="+y.feilds.x1+">"+y.feilds.c0+"</option>";
+}
+x += "</select>";
+
+
+"
+<select id=3 onchange='changecategory()'>
+<option value=undefined>all</option>
+<option value=undefined>all</option>
+<option value=undefined>all</option>
+</select>
+"
+var droptext="<select id=drop"+i+">"
+
+for(var key in y.feilds){
+	if(y.feilds[key]==str){
+		droptext += "<option value="+y.feilds[key]+" selected>"+y.feilds[key]+"</option>";
+	}
+	else
+	{droptext += "<option value="+y.feilds[key]+">"+y.feilds[key]+"</option>";}
+}
+droptext += "</select>";
+
+"
+<select id=3 >
+<option value=6>6</option>
+<option value=all>all</option>
+<option value=home>home</option>
+<option value=personal>personal</option>
+<option value=work>work</option>
+<option value=this>this</option>
+<option value=final>final</option>
+</select>
+"
+
+
+
+"
+<select id=drop3>
+<option value=6>6</option>
+<option value=all selected>all</option>
+<option value=home>home</option>
+<option value=personal>personal</option>
+<option value=work>work</option>
+<option value=this>this</option>
+<option value=final>final</option>
+</select>
+"
+
+*/
