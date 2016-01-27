@@ -11,7 +11,7 @@ var keepclass=function(){
 		}	
 		else{
 			//alert("avhu");
-			localStorage.setItem('colors','{"color0":"DarkSalmon","color1":"blue","color2":"green","color3":"orange","color4":"yellow","color5":"black","c6":"purple"}');
+			localStorage.setItem('colors','{"color0":"DarkSalmon","color1":"GoldenRod","color2":"IndianRed","color3":"orange","color4":"khaki","color5":"RosyBrown","c6":"LightSteelBlue "}');
 			localStorage.setItem('feilds','{"count":1,"c1":"All"}');
 			localStorage.setItem('notes','{"count":0,"data":[]}');
 			location.reload();
@@ -33,6 +33,7 @@ var main=function(){
 	})();
 
 	function newfeildfunction(){
+		$('#newfeildtext').width(169);
 		var newfeild=document.getElementById("newfeildtext");
 		if(newfeild.value!=""){
 			if(keep.notes.count==0){
@@ -58,8 +59,11 @@ function displaycategories(){
 	var u=parseInt(keep.feilds["count"]);
 	var d = document.createDocumentFragment();
 	for (var i=1;i<=u;i++){
-		var y1=document.createElement("button");
+		var y1=document.createElement("SPAN");
 		y1.setAttribute("class","feildbuttons");
+		//y1.setAttribute("style","cursor:pointer");
+
+		//y1.setAttribute("style","font-weight:bold");
 		var aa="c"+i;
 		var a1=keep.feilds[aa];
 		function temp1(x){
@@ -76,29 +80,70 @@ function displaycategories(){
 	}	
 	document.getElementsByTagName("div")[1].appendChild(d);
 }
+$('#newfeildtext').keypress(function() {
+	//alert("A");
+    var txtWidth = $(this).width();
+    var cs = $(this).val().length;
+
+    if(cs>17){
+       $(this).width(txtWidth+5);
+    }
+});
+$('#newnotetext').keypress(function(event) {
+	//alert("A");
+    var txtWidth = $(this).width();
+    var cs1 = $(this).val().length;
+
+    if(cs1>17){
+       $(this).width(txtWidth+5);
+    }
+
+    var txtheight = $(this).height();
+   // var cs2 = $(this).val().length;
+
+  /*  if(cs2>17){
+       $(this).height(txtheight+5);
+    }*/
+    if(event.keyCode==13){
+    	//alert("enter");
+    	  $(this).height(txtheight+10);
+    }
+
+
+});
 displaycategories();
 
 	function newnotefunction(){
+		$('#newnotetext').width(175);
+		$('#newnotetext').height(50);
 		var tx=document.getElementById("newnotetext");
 		var txt=tx.value;
 
 		txt=escapeHtml(txt.trim()).replace(/\n|\r/g, "<br>");
+		//alert(txt);
+		var  tempo=txt.split("<br>");
+		var title1=tempo[0];
+		tempo.shift();
+		txt=tempo.join("<br>");
+		//alert(txt);
+
+
+
 		if(txt!=""){
 			var count=parseInt(keep.notes.count+1);
 			keep.notes.count=parseInt(count);
-			var str='{"id":'+count+',"category":"'+globalcategory+'","color":"red","text":"'+txt+'","checkbox":"false","checkdata":[],"editstatus":"false"}';
+			var str='{"id":'+count+',"category":"'+globalcategory+'","color":"DarkSalmon","text":"'+txt+'","checkbox":"false","checkdata":[],"editstatus":"false","title":"'+title1+'"}';
 			var xx=JSON.parse(str);
 			keep.notes.data.push(xx);			
 			var tl=JSON.stringify(keep.notes);
 			localStorage.setItem("notes",tl);
-			var dd=txt.split("$");
+			var dd=txt.split("<br>");
 				for(var key in dd){
 					keep.notes.data[count-1].checkdata.push("false");
 				}	
 			var tw=JSON.stringify(keep.notes);
 			localStorage.setItem("notes",tw);
 			$("#newnotetext").val("");
-//			$("#newfeildtext").value="";
 			display(globalcategory);
 		}
 		else{
@@ -130,12 +175,19 @@ displaycategories();
 		droptext += "</select>";
 		
 		var cc=parseInt(keep.notes.count);
+		//alert("cc");
 		for(var i=1;i<=cc;i++){
 			var st=keep.notes.data[i-1].category;
 			if(st==str){
+				if(keep.notes.data[i-1].text==""){
+					//alert("aa");
+					deletenote(i);break;
+					//alert("bb");
+					//display(globalcategory);
+				}
 				var cl=keep.notes.data[i-1].color;
-				var colortext1="";
-				var colortext1="<select class='dropdown' id='color"+cl;
+				var colortext1="";/* style='background-color:"+keep.notes.data[i-1].color+"'*/
+				var colortext1="<select  class='dropdown' id='color"+cl;
 				var colortext="";
 
 				for(var key in keep.colors){
@@ -150,7 +202,10 @@ displaycategories();
 				var d=document.createDocumentFragment();
 				var x=document.createElement("div");
 				x.setAttribute("class","nnote");
+				var we="noten"+i;
+				x.setAttribute("id",we);
 				var tr="background-color:"+cl;	
+				x.setAttribute("style",tr);
 			
 				var checkdataa="";var checki=1;
 				if(keep.notes.data[i-1].checkbox=="true"){				
@@ -159,53 +214,49 @@ displaycategories();
 					var checkdataa11="";var checkdataa22="";
 					for(var key in arr){
 						if(keep.notes.data[i-1].checkdata[status]=="true"){
-							//alert("rere");
-							checkdataa11 +="<label style='color:"+keep.notes.data[i-1].color+";' id='label"+i+""+checki+"'><input type='checkbox' id='check"+i+""+checki+"' value='"+arr[key]+"' checked><strike>"+arr[key]+"</strike></label><span class='crossmarks' id='cross"+i+""+checki+"'>&nbsp;&nbsp;&nbsp;&#x2718;</span><span class='editmarks' id='edit_task"+i+""+checki+"'>&nbsp;&#x270D;</span></br>";
+							checkdataa11 +="<label  id='label"+i+""+checki+"'><input type='checkbox' id='check"+i+""+checki+"' value='"+arr[key]+"' checked><strike>"+arr[key]+"</strike></label><span style='cursor:pointer' title='Delete_task' class='crossmarks' id='cross"+i+""+checki+"'>&nbsp;&nbsp;&nbsp;&#x2718;</span><span style='cursor:pointer' title='Edit_task' class='editmarks' id='edit_task"+i+""+checki+"'>&nbsp;&#x270D;</span></br>";
 							checki +=1;status++;
 						}
 						else{
-							checkdataa22 +="<label style='color:"+keep.notes.data[i-1].color+";' id='label"+i+""+checki+"'><input type='checkbox' id='check"+i+""+checki+"' value='"+arr[key]+"'>"+arr[key]+"</label><span class='crossmarks'  id='cross"+i+""+checki+"'>&nbsp;&nbsp;&nbsp;&#x2718;</span><span class='editmarks' id='edit_task"+i+""+checki+"'>&nbsp;&#x270D;</span></br>";
+							checkdataa22 +="<label  id='label"+i+""+checki+"'><input type='checkbox' id='check"+i+""+checki+"' value='"+arr[key]+"'>"+arr[key]+"</label><span style='cursor:pointer' title='Delete_task' class='crossmarks'  id='cross"+i+""+checki+"'>&nbsp;&nbsp;&nbsp;&#x2718;</span><span style='cursor:pointer' title='Edit_task' class='editmarks' id='edit_task"+i+""+checki+"'>&nbsp;&#x270D;</span></br>";
 							checki +=1;status++;
-						}
+						}	
 					}
 					if(checkdataa11 !=""){
-						checkdataa=checkdataa22+"</br>Checked Tasks</br>"+checkdataa11;
+						checkdataa=checkdataa22+"</br><span id='ch' >Completed Tasks</span></br>"+checkdataa11;
 					}
 					else{
 						checkdataa=checkdataa22;
 					}
 					
-					
-				//newone
 					if(keep.notes.data[i-1].editstatus=="true"){
-						checkdataa +="<input type='text' id='newedit"+i+"' autofocus><span id='ok"+i+"'>&#x2714;</span>";
+						checkdataa +="<input type='text' id='newedit"+i+"' autofocus><span style='cursor:pointer' id='ok"+i+"'>&#x2714;</span>";
 					}
 					else{
-						checkdataa += "</br><span title='Add new task' class='edit' id='edit"+i+"'>&#x271C;</span>";
+						checkdataa += "<span style='cursor:pointer' title='Add new task' class='edit' id='edit"+i+"'>&#x271A;</span><br>";
 					}
 				}
 				else{
-				var changedtext=keep.notes.data[i-1].text;
-				var tt=keep.notes.data[i-1].text;
-				var ar1=tt.split("<br>");//var para1=1;
-				var temp1="<p  id='p"+i+"' style='color:"+keep.notes.data[i-1].color+";background-color="+keep.notes.data[i-1].color+"'>"
-				var temp2="";
-				for(var key in ar1){
-					 temp2 += ar1[key]+"<br>";
+					var changedtext=keep.notes.data[i-1].text;
+					var tt=keep.notes.data[i-1].text;
+					var ar1=tt.split("<br>");//var para1=1;
+					var temp1="<p style='margin:0px' id='p"+i+"'>"
+					var temp2="";
+					for(var key in ar1){
+						 temp2 += ar1[key]+"<br>";
+					}
+					temp3="</p>";
+					checkdataa=temp1+temp2+temp3;
 				}
-				temp3="</p>";
-				checkdataa=temp1+temp2+temp3;
-
-				}
-
-				htm=checkdataa+"</br><span class='delbuttons' id='del"+i+"'>&#x2716;</span>"+droptext1+i+">"+droptext+colortext1+i+"'>"+colortext+"<button class='checkbox' id='check"+i+"'>Marks</button>";
+				var tempcolor="color"+i;		/* style='background-color:"+keep.notes.data[i-1].color+"' */
+				htm="<span><b>"+keep.notes.data[i-1].title+"</b></span><br><br>"+checkdataa+"</br><span title='Delete note' style='cursor:pointer' class='delbuttons' id='del"+i+"'>&#x2716;</span>"+droptext1+i+">"+droptext+colortext1+i+"'>"+colortext+"<button  class='checkbox' id='check"+i+"'>Marks</button>";
 				x.innerHTML=htm;
 				d.appendChild(x);
 				$("#notes").append(d);
 				//document.getElementById("notes").appendChild(d);
 			
 				var delid="del"+i;
-				(function(x,i1){//alert(x);
+				(function(x,i1){
 					//console.log(document.getElementById(x));
 					var t="#"+x;
 					$(t).click(function(){
@@ -281,7 +332,87 @@ displaycategories();
 				(function(x,i1){//alert(x);
 					document.getElementById(x).addEventListener("click",function(){
 					changecheckstatus(i1); });
-				})(checkid,i);			
+				})(checkid,i);	
+
+//$("#newnotetext").defaultValue="Title";
+/*
+var wew="#"+we;
+alert(wew);
+$(wew).on('mouseleave', function(){
+
+	for(var k=1;k<=keep.notes.data[i-1].checkdata.length;k++){
+	var cr="#cross"+i+""+k;
+	$(cr).hide(500);
+	var er="#edit_task"+i+""+k;
+	$(er).hide(500);
+	
+	}
+	var dr="#drop"+str+i;
+    $(dr).hide(500); 
+    var ch="#check"+i; 
+    $(ch).hide(500);
+    
+    
+    var de="#del"+i;
+    $(de).hide(500);
+    var ee="#edit"+i;
+    $(ee).hide(500);
+//var colo="color"+keep.feilds[i-1]
+//$(colo)
+   // $('.editmarks').hide(500);
+});
+$(wew).on('mouseenter', function(){
+	for(var k=1;k<=keep.notes.data[i-1].checkdata.length;k++){
+	var cr="#cross"+i+""+k;
+	$(cr).show(500);
+	var er="#edit_task"+i+""+k;
+	$(er).show(500);
+	
+	}
+	var dr="#drop"+str+i;
+    $(dr).show(500); 
+    var ch="#check"+i; 
+    $(ch).show(500);
+    
+    
+    var de="#del"+i;
+    $(de).show(500);
+    var ee="#edit"+i;
+    $(ee).show(500);
+
+    $('.dropdown').show(500); 
+   $('.checkbox').show(500);
+   $('.crossmarks').show(500); 
+   $('.delbuttons').show(500);
+   $('.edit').show(500); 
+   $('.editmarks').show(500);  
+});
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			}
 		}
 	}
@@ -407,7 +538,7 @@ displaycategories();
     	$(temp).css({"border":"none","outline":"none"});
     	var eid="#edit_task"+i+""+j;//alert(eid);
     	$(eid).replaceWith( function() {
-        return "<span id='a"+i+""+j+"' >&#x2714;</span>";
+        return "<span style='cursor:pointer'  id='a"+i+""+j+"' >&#x2714;</span>";
     	});var eid2="a"+i+""+j;
     	(function(x,ii,jj){//alert(x);
 					document.getElementById(x).addEventListener("click",function(){
