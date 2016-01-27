@@ -249,7 +249,7 @@ displaycategories();
 					checkdataa=temp1+temp2+temp3;
 				}
 				var tempcolor="color"+i;		/* style='background-color:"+keep.notes.data[i-1].color+"' */
-				htm="<span><b>"+keep.notes.data[i-1].title+"</b></span><br><br>"+checkdataa+"</br><span title='Delete note' style='cursor:pointer' class='delbuttons' id='del"+i+"'>&#x2716;</span>"+droptext1+i+">"+droptext+colortext1+i+"'>"+colortext+"<button  class='checkbox' id='check"+i+"'>Marks</button>";
+				htm="<span contenteditable='true' id='titlet"+i+"'><b>"+keep.notes.data[i-1].title+"</b></span><br><br>"+checkdataa+"</br><span title='Delete note' style='cursor:pointer' class='delbuttons' id='del"+i+"'>&#x2716;</span>"+droptext1+i+">"+droptext+colortext1+i+"'>"+colortext+"<button  class='checkbox' id='check"+i+"'>Marks</button>";
 				x.innerHTML=htm;
 				d.appendChild(x);
 				$("#notes").append(d);
@@ -333,6 +333,16 @@ displaycategories();
 					document.getElementById(x).addEventListener("click",function(){
 					changecheckstatus(i1); });
 				})(checkid,i);	
+
+
+
+				var qq="titlet"+i;
+				(function(x,i1){
+					var t="#"+x;
+					$(t).blur(function(){
+						changeTitle(i1,x); });
+					
+				})(qq,i);
 
 //$("#newnotetext").defaultValue="Title";
 /*
@@ -566,6 +576,20 @@ $(wew).on('mouseenter', function(){
 		}
 		
 
+	}
+
+	function changeTitle(s,str){
+		//var xw = document.getElementById(str);
+		//var ww=xw.value;
+		var we="#titlet"+s;
+		var value=$(we).text();
+		//console.log(ww);
+		var x=parseInt(s)-1;
+		//alert(value);
+		keep.notes.data[x].title=value;
+		var tl=JSON.stringify(keep.notes);
+		localStorage.setItem("notes",tl);
+		display(globalcategory);
 	}
 	function escapeHtml(text) {
 	  var map = {
